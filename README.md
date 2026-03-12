@@ -12,27 +12,25 @@ Dwindle allows users to create short links, track how many people click them, an
 ## URL Shortening
 Generate short links for long URLs.
 
-```
+Example:
 
-[https://example.com/some/very/long/url](https://example.com/some/very/long/url)
+```text
+https://example.com/some/very/long/url
 ↓
-[http://localhost:8000/abc123](http://localhost:8000/abc123)
-
+http://localhost:8000/abc123
 ```
 
 ## Custom Short Codes
 Create your own readable links.
 
-```
-
+```text
 /github
 /docs
 /project
-
 ```
 
 ## Link Expiration
-Links can expire after a specified time.
+Links can optionally expire after a specified time.
 
 ## Click Analytics
 Track how many times each shortened link is used.
@@ -53,8 +51,7 @@ Run the entire stack using Docker containers.
 
 # Architecture
 
-```
-
+```text
 Browser
 ↓
 FastAPI API
@@ -62,7 +59,6 @@ FastAPI API
 Redis Cache
 ↓
 PostgreSQL Database
-
 ```
 
 Redis caches frequently accessed short links to reduce database load.
@@ -74,7 +70,7 @@ Redis caches frequently accessed short links to reduce database load.
 ### Backend
 FastAPI  
 SQLAlchemy ORM  
-Alembic (Database migrations)
+Alembic (database migrations)
 
 ### Database
 PostgreSQL
@@ -95,8 +91,7 @@ Docker Compose
 
 # Project Structure
 
-```
-
+```text
 url-shortener/
 │
 ├── app/
@@ -120,7 +115,6 @@ url-shortener/
 ├── alembic.ini
 ├── README.md
 └── .gitignore
-
 ```
 
 ---
@@ -141,56 +135,26 @@ This starts:
 
 ### 1. Install Docker
 
-https://www.docker.com/
-
----
+Install Docker from: https://www.docker.com/
 
 ### 2. Clone the Repository
 
+```bash
+git clone https://github.com/Sreehari0o4/Dwindle-URL_Shortener.git
+cd Dwindle-URL_Shortener
 ```
-
-git clone [https://github.com/YOUR_USERNAME/dwindle-url-shortener.git](https://github.com/YOUR_USERNAME/dwindle-url-shortener.git)
-cd dwindle-url-shortener
-
-```
-
----
 
 ### 3. Start Containers
 
-```
-
+```bash
 docker compose up --build
-
 ```
-
----
 
 ### 4. Open the Application
 
-Dashboard
-
-```
-
-[http://localhost:8000/dashboard](http://localhost:8000/dashboard)
-
-```
-
-Analytics
-
-```
-
-[http://localhost:8000/analytics-page](http://localhost:8000/analytics-page)
-
-```
-
-API Documentation
-
-```
-
-[http://localhost:8000/docs](http://localhost:8000/docs)
-
-```
+- Dashboard: http://localhost:8000/dashboard  
+- Analytics: http://localhost:8000/analytics-page  
+- API docs (Swagger UI): http://localhost:8000/docs
 
 ---
 
@@ -198,59 +162,39 @@ API Documentation
 
 ### 1. Create Virtual Environment
 
-```
-
+```bash
 python -m venv venv
-
 ```
 
-Activate it
+Activate it:
 
-Windows
+**Windows**
 
-```
-
+```bash
 venv\Scripts\activate
-
 ```
 
-Mac / Linux
+**macOS / Linux**
 
-```
-
+```bash
 source venv/bin/activate
-
 ```
-
----
 
 ### 2. Install Dependencies
 
-```
-
+```bash
 pip install -r requirements.txt
-
 ```
-
----
 
 ### 3. Run the Server
 
-```
-
+```bash
 uvicorn app.main:app --reload
-
 ```
-
----
 
 ### 4. Open the Dashboard
 
-```
-
-[http://127.0.0.1:8000/dashboard](http://127.0.0.1:8000/dashboard)
-
-```
+Dashboard: http://127.0.0.1:8000/dashboard
 
 ---
 
@@ -258,20 +202,16 @@ uvicorn app.main:app --reload
 
 Alembic is used for managing database schema changes.
 
-Create migration
+Create a migration:
 
-```
-
+```bash
 alembic revision --autogenerate -m "migration message"
-
 ```
 
-Apply migrations
+Apply migrations:
 
-```
-
+```bash
 alembic upgrade head
-
 ```
 
 ---
@@ -280,51 +220,41 @@ alembic upgrade head
 
 ## Create Short URL
 
-```
-
+```http
 POST /shorten
-
 ```
 
-Example request
+Example request body:
 
-```
-
+```json
 {
-"url": "[https://example.com](https://example.com)",
-"custom_code": "optional"
+	"url": "https://example.com",
+	"custom_code": "optional"
 }
-
 ```
 
 ---
 
 ## Redirect Short URL
 
-```
-
+```http
 GET /{short_code}
-
 ```
 
 ---
 
 ## List All URLs
 
-```
-
+```http
 GET /urls
-
 ```
 
 ---
 
 ## Get Analytics
 
-```
-
+```http
 GET /analytics/{short_code}
-
 ```
 
 ---
@@ -346,7 +276,7 @@ GET /analytics/{short_code}
 Possible improvements:
 
 - Click history over time
-- Top performing links
+- Top-performing links
 - Country-based analytics
 - User authentication
 - Browser extension
