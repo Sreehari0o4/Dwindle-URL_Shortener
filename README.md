@@ -1,4 +1,3 @@
-```markdown
 # Dwindle – URL Shortener & Analytics
 
 A full-stack **URL shortening service with real-time analytics**, built using **FastAPI, PostgreSQL, Redis, and Docker**.
