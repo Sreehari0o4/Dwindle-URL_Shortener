@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Dwindle Analytics</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family: Arial;
+margin:0;
+background:#ffffff;
+color:#333;
+}
+
+header{
+background:#434E78;
+color:white;
+padding:16px 30px;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+.chart-box{
+width:100%;
+height:250px;
+margin:auto;
+}
+
+canvas{
+max-height:250px;
+}
+
+.table-container{
+margin-top:30px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+thead{
+background:#f3f4f6;
+}
+
+th{
+padding:12px;
+text-align:left;
+font-size:14px;
+}
+
+td{
+padding:10px;
+border-top:1px solid #ddd;
+font-size:14px;
+word-break:break-word;
+}
+
+tr:hover{
+background:#f9fafb;
+}
+
+.short-link{
+color:#2563eb;
+text-decoration:none;
+}
+
+.short-link:hover{
+text-decoration:underline;
+}
+
+.clicks{
+text-align:center;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>DWINDLE</header>
+
+<div class="container">
+
+<h1>Link Analytics</h1>
+
+<div class="chart-box">
+<canvas id="chart"></canvas>
+</div>
+
+<div class="table-container">
+
+<table id="table">
+
+<thead>
+<tr>
+<th>Short URL</th>
+<th>Original URL</th>
+<th>Clicks</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+let chart;
+
+async function load(){
+
+const response = await fetch("/urls");
+const data = await response.json();
+
+const tableBody = document.querySelector("#table tbody");
+
+tableBody.innerHTML = "";
+
+let labels=[];
+let clicks=[];
+
+data.forEach(u=>{
+
+const short = `http://127.0.0.1:8000/${u.short_code}`;
+
+labels.push(u.short_code);
+clicks.push(u.clicks);
+
+tableBody.innerHTML += `
+<tr>
+<td>
+<a class="short-link" href="${short}" target="_blank">${short}</a>
+</td>
+<td>${u.original_url}</td>
+<td class="clicks">${u.clicks}</td>
+</tr>
+`;
+
+});
+
+draw(labels,clicks);
+
+}
+
+function draw(labels,data){
+
+const ctx = document.getElementById("chart");
+
+if(chart){
+chart.destroy();
+}
+
+chart = new Chart(ctx,{
+type:"bar",
+data:{
+labels:labels,
+datasets:[{
+label:"Clicks",
+data:data,
+backgroundColor:"#4f46e5"
+}]
+},
+options:{
+responsive:true,
+plugins:{
+legend:{display:false}
+},
+scales:{
+y:{
+beginAtZero:true
+}
+}
+}
+});
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>

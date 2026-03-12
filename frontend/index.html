@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Dwindle</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#9BD36B;
+}
+
+header{
+background:#434E78;
+color:white;
+padding:16px 30px;
+font-size:24px;
+font-weight:bold;
+}
+
+.hero{
+text-align:center;
+padding:50px 20px;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#333;
+font-size:16px;
+margin-bottom:40px;
+}
+
+.card{
+width:420px;
+margin:auto;
+background:#eee;
+padding:30px;
+border-radius:15px;
+box-shadow:0 12px 25px rgba(0,0,0,0.15);
+text-align:left;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+label{
+font-size:14px;
+font-weight:bold;
+display:block;
+margin-bottom:6px;
+}
+
+input{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:1px solid #bbb;
+font-size:14px;
+}
+
+button{
+padding:10px 16px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+}
+
+.primary-btn{
+background:#434E78;
+color:white;
+margin-top:10px;
+}
+
+.analytics-btn{
+background:#45b649;
+color:white;
+margin-top:15px;
+}
+
+.result-box{
+margin-top:20px;
+display:flex;
+gap:10px;
+}
+
+.result-box input{
+flex:1;
+}
+
+.copy-btn{
+background:#5b6cbf;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>DWINDLE</header>
+
+<div class="hero">
+
+<h1>URL Shortener & Analytics</h1>
+
+<p>
+Create short links instantly and track how many people click them using real-time analytics.
+</p>
+
+<div class="card">
+
+<h3>Shorten your link</h3>
+
+<div class="form-group">
+<label>Your long link</label>
+<input id="url" placeholder="https://example.com">
+</div>
+
+<div class="form-group">
+<label>Custom code (optional)</label>
+<input id="custom" placeholder="custom-code">
+</div>
+
+<button class="primary-btn" onclick="shorten()">
+Shorten
+</button>
+
+<div class="result-box">
+<input id="short-result" readonly placeholder="Your short link will appear here">
+<button class="copy-btn" onclick="copyResult()">Copy</button>
+</div>
+
+<button class="analytics-btn" onclick="openAnalytics()">
+View Analytics
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+async function shorten(){
+
+const url = document.getElementById("url").value;
+const custom = document.getElementById("custom").value;
+
+if(!url){
+alert("Please enter a URL");
+return;
+}
+
+const response = await fetch("/shorten",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+url:url,
+custom_code:custom
+})
+});
+
+const data = await response.json();
+
+if(data.error){
+alert(data.error);
+return;
+}
+
+document.getElementById("short-result").value = data.short_url;
+
+}
+
+function copyResult(){
+
+const input = document.getElementById("short-result");
+
+if(!input.value){
+alert("Nothing to copy");
+return;
+}
+
+input.select();
+navigator.clipboard.writeText(input.value);
+
+}
+
+function openAnalytics(){
+window.location.href="/analytics-page";
+}
+
+</script>
+
+</body>
+</html>
