@@ -262,11 +262,11 @@ GET /analytics/{short_code}
 
 ## Dashboard
 
-(Add screenshot here)
+![Dashboard](screenshots/dashboard.png)
 
 ## Analytics
 
-(Add screenshot here)
+![Analytics](screenshots/analytics.png)
 
 ---
 
@@ -292,9 +292,3 @@ Interested in backend engineering, DevOps, and system design.
 
 ---
 
-# License
-
-MIT License
-```
-
----
